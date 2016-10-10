@@ -1,3 +1,9 @@
+/*
+  Escreva uma função que realize uma divisão de utilizando o método recursivo.
+
+  Ex: div(10, 2) == 5
+*/
+
 #include "stdio.h"
 
 int div(int a, int b){
