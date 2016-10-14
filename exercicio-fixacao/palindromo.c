@@ -7,12 +7,24 @@
 int main(void) {
 
   char frase[9999];
+  char novaFrase[9999];
   char palindromo = 1;
-  int i, j;
+  int i, j, indice = 0;
 
   printf("Digite uma frase:\n");
   gets(frase);
 
+  j = strlen(frase) - 1;
+
+  for (i = 0; i <= j; i++)
+  {
+    if (frase[i] != ' ')
+    {
+      novaFrase[indice++] = frase[i];
+    }
+  }
+
+  strcpy(&frase, &novaFrase);
   j = strlen(frase) - 1;
 
   for (i = 0; i <= j; i++, j--)
@@ -29,6 +41,5 @@ int main(void) {
   } else {
     printf("Não é palíndromo\n");
   }
-
   return 0;
 }
