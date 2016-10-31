@@ -2,7 +2,9 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define BOMB '*'
+#define FIELD_BOMB            '*'
+#define DEFAULT_BOARD_SIDE    3
+#define DEFAULT_BOMBS_AMOUNT  3
 
 void initBoard(int boardSide, char board[][boardSide])
 {
@@ -15,21 +17,23 @@ void setBombs(int boardSide, char board[][boardSide], int quantity)
 {
   int bombs = 0;
 
-  do {
+  while(bombs < quantity) {
     int x = rand() % boardSide;
     int y = rand() % boardSide;
 
     if (!board[x][y])
     {
-      board[x][y] = BOMB;
+      board[x][y] = FIELD_BOMB;
       bombs++;
     }
 
-  } while(bombs < quantity);
+  }
 }
 
 void showBoard(int boardSide, char board[][boardSide])
 {
+  printf("\n");
+
   for (int j = 0; j < boardSide; j++)
   {
     printf("=====");
@@ -53,6 +57,8 @@ void showBoard(int boardSide, char board[][boardSide])
 
     printf("\n");
   }
+
+  printf("\n");
 }
 
 int checkField(int boardSide, char board[][boardSide], int x, int y)
@@ -70,7 +76,7 @@ int checkField(int boardSide, char board[][boardSide], int x, int y)
       if ((i == 0 && j == 0) || currentY < 0 || currentY >= boardSide)
         continue;
 
-      if (board[currentX][currentY] == BOMB)
+      if (board[currentX][currentY] == FIELD_BOMB)
       {
         bombsFounded++;
       }
@@ -85,7 +91,7 @@ void checkBoard(int boardSide, char board[][boardSide])
   {
     for (int j = 0; j < boardSide; j++)
     {
-      if (board[i][j] != BOMB)
+      if (board[i][j] != FIELD_BOMB)
       {
         int bombsFounded = checkField(boardSide, board, i, j);
         board[i][j] =  bombsFounded ? bombsFounded + '0' : 0;
@@ -98,15 +104,21 @@ int main(int argc, char const *argv[])
 {
   srand(time(NULL));
 
-  int boardSide = argc > 1 ? (int)*argv[1] - 48 : 3;
-  int bombsAmount = argc > 2 ? (int)*argv[2] - 48 : 3;
-
+  int boardSide = argc > 1 ? atoi(argv[1]): DEFAULT_BOARD_SIDE;
+  int bombsAmount = argc > 2 ? atoi(argv[2]): DEFAULT_BOMBS_AMOUNT;
   char board[boardSide][boardSide];
 
-  initBoard(boardSide, board);
-  setBombs(boardSide, board, bombsAmount);
+  if (boardSide * boardSide < bombsAmount)
+  {
+    printf("O campo com dimensão %dx%d é insuficiente para %d bombas.\n", boardSide, boardSide, bombsAmount);
+    return 0;
+  }
 
-  showBoard(boardSide, board);
+  printf("\nPronto! Aqui está o seu campo minado tamanho %dx%d e com %d bombas!!!\n", boardSide, boardSide, bombsAmount);
+
+  initBoard(boardSide, board);
+
+  setBombs(boardSide, board, bombsAmount);
 
   checkBoard(boardSide, board);
 
