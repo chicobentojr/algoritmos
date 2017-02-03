@@ -26,6 +26,9 @@ int main(int argc, char const *argv[]) {
 
     int number = pow(2, i);
 
+    time_sum[0] = 0;
+    time_sum[1] = 0;
+
     for (j = 0; j < executions; j++) {
 
       QueryPerformanceFrequency(&freq);
@@ -35,8 +38,8 @@ int main(int argc, char const *argv[]) {
 
       QueryPerformanceCounter(&end);
 
-      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart;
-      time_sum[0] += ms * 1000;
+      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart * 1000;
+      time_sum[0] += ms;
 
       QueryPerformanceFrequency(&freq);
       QueryPerformanceCounter(&begin);
@@ -45,8 +48,8 @@ int main(int argc, char const *argv[]) {
 
       QueryPerformanceCounter(&end);
 
-      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart;
-      time_sum[1] += ms * 1000;
+      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart * 1000;
+      time_sum[1] += ms;
 
     }
 

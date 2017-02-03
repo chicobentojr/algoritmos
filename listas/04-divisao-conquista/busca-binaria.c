@@ -3,6 +3,10 @@
 #include <windows.h>
 #include <math.h>
 
+int busca(int *a, int size, int x);
+int buscaLinear(int *a, int size, int x);
+int buscaRec(int *a, int x, int inicio, int fim);
+
 int main(int argc, char const *argv[]) {
 
   double executions = 1000;
@@ -26,8 +30,8 @@ int main(int argc, char const *argv[]) {
     int number = numbers_size - 1;
     int number_index;
 
-    time_sum[0];
-    time_sum[1];
+    time_sum[0] = 0;
+    time_sum[1] = 0;
 
     for (j = 0; j < numbers_size; j++) {
       numbers[j] = j;
@@ -42,8 +46,8 @@ int main(int argc, char const *argv[]) {
 
       QueryPerformanceCounter(&end);
 
-      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart;
-      time_sum[0] += ms * 1000;
+      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart * 1000;
+      time_sum[0] += ms;
 
       QueryPerformanceFrequency(&freq);
       QueryPerformanceCounter(&begin);
@@ -52,8 +56,8 @@ int main(int argc, char const *argv[]) {
 
       QueryPerformanceCounter(&end);
 
-      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart;
-      time_sum[1] += ms * 1000;
+      ms = (double) (end.QuadPart - begin.QuadPart) / freq.QuadPart * 1000;
+      time_sum[1] += ms;
 
     }
 
